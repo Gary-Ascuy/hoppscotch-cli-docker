@@ -1,29 +1,40 @@
-name: docker-release
+name: dockerhub-release
 on:
   push:
     branches:
       - 'main'
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     - run: echo HOPPSCOTCH_CLI_VERSION=$(jq -r '.dependencies["@hoppscotch/cli"]' app/package.json) >> $GITHUB_ENV
     - run: echo $HOPPSCOTCH_CLI_VERSION
-    -
-      name: Set up QEMU
+    
+    - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
-    -
-      name: Set up Docker Buildx
+    
+    - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
-    -
-      name: Login to Docker Hub
+    
+    - name: Adding tag into repo
+      uses: actions/github-script@v7
+      with:
+        script: |
+          github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/v${{ HOPPSCOTCH_CLI_VERSION }}',
+              sha: context.sha
+          })
+    
+    - name: Login to Docker Hub
       uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-    -
-      name: Build and push
+    
+    - name: Build & Push Alpine
       uses: docker/build-push-action@v6
       with:
         context: .
@@ -31,8 +42,8 @@ jobs:
         push: true
         platforms: linux/amd64,linux/arm64
         tags: garyascuy/hoppscotch-cli:latest,garyascuy/hoppscotch-cli:alpine-latest,garyascuy/hoppscotch-cli:alpine-${{ env.HOPPSCOTCH_CLI_VERSION }}
-    -
-      name: Build and push
+    
+    - name: Build & Push Debian
       uses: docker/build-push-action@v6
       with:
         context: .
