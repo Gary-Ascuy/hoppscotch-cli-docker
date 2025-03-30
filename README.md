@@ -1,7 +1,19 @@
-### Automated Docker Builds for HoppScotch CLI
-See the Hoppscotch CLI [docs here](https://docs.hoppscotch.io/documentation/clients/cli).
-This repository build docker images containing the CLI for use in CI/CD in debian and alpine flavors.
- - On release of a new version of the CLI, dependabot should trigger a new build process
- - The image should be automatically pushed to dockerhub.
+# Docker Build for HoppScotch CLI 0.20.3
 
-Images are available under [shawnsarwar/hoppscotch-cli:{base-image}-{version}](https://hub.docker.com/repository/docker/shawnsarwar/hoppscotch-cli/general)
+Manual Build
+
+```
+docker login -u gary.ascuy@gmail.com
+
+docker build \
+    --tag garyascuy/hoppscotch-cli:0.20.3 \
+    --tag garyascuy/hoppscotch-cli \
+    --file Dockerfile_alpine .
+
+docker push garyascuy/hoppscotch-cli:0.20.3
+docker push garyascuy/hoppscotch-cli
+```
+
+### References 
+
+- https://hub.docker.com/r/garyascuy/hoppscotch-cli/tags
