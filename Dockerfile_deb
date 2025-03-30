@@ -28,4 +28,4 @@ COPY --from=build /usr/local/lib/node_modules /usr/local/lib/node_modules
 COPY --from=build /usr/local/bin /usr/local/bin
 
 # Set the entrypoint
-ENTRYPOINT [ "/bin/bash"]
+ENTRYPOINT [ "/usr/local/bin/hopp"]

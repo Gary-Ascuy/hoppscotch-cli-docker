@@ -33,4 +33,4 @@ COPY --from=build /usr/local/bin /usr/local/bin
 RUN rm -rf /usr/app/tmp /usr/app/logs
 
 # Set the entrypoint
-ENTRYPOINT [ "/bin/bash"]
+ENTRYPOINT [ "/usr/local/bin/hopp"]

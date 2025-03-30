@@ -8,8 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - run: echo LIB_VERSION=$(jq -r '.dependencies["@hoppscotch/cli"]' app/package.json) >> $GITHUB_ENV
-    - run: echo $LIB_VERSION
+    - run: echo HOPPSCOTCH_CLI_VERSION=$(jq -r '.dependencies["@hoppscotch/cli"]' app/package.json) >> $GITHUB_ENV
+    - run: echo $HOPPSCOTCH_CLI_VERSION
     -
       name: Set up QEMU
       uses: docker/setup-qemu-action@v3
@@ -24,19 +24,19 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     -
       name: Build and push
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         context: .
         file: Dockerfile_alpine
         push: true
         platforms: linux/amd64,linux/arm64
-        tags: shawnsarwar/hoppscotch-cli:alpine-${{ env.LIB_VERSION }}
+        tags: garyascuy/hoppscotch-cli:latest,garyascuy/hoppscotch-cli:alpine-latest,garyascuy/hoppscotch-cli:alpine-${{ env.HOPPSCOTCH_CLI_VERSION }}
     -
       name: Build and push
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         context: .
         file: Dockerfile_deb
         push: true
         platforms: linux/amd64,linux/arm64
-        tags: shawnsarwar/hoppscotch-cli:bookworm-slim-${{ env.LIB_VERSION }}
+        tags: garyascuy/hoppscotch-cli:bookworm-slim-latest,garyascuy/hoppscotch-cli:bookworm-slim-${{ env.HOPPSCOTCH_CLI_VERSION }}
