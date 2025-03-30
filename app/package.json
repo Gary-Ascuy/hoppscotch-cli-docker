@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@hoppscotch/cli": "0.9.1"  
+    "@hoppscotch/cli": "0.13.0"  
   }
 }
   

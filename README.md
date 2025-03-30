@@ -1,33 +1,32 @@
-# Docker Build for HoppScotch CLI 0.20.3
-
-### Manual Build
-
-```
-docker login -u gary.ascuy@gmail.com
-
-docker build \
-    --tag garyascuy/hoppscotch-cli:0.20.3 \
-    --tag garyascuy/hoppscotch-cli \
-    --file Dockerfile_alpine .
-
-docker push garyascuy/hoppscotch-cli:0.20.3
-docker push garyascuy/hoppscotch-cli
-```
-
+# Hoppscotch CLI
 
 ### Usage 
 
 ```sh
-docker run -it --rm --network host \
+docker run --rm -t --network host \
     -v $(pwd):/usr/app \
-    garyascuy/hoppscotch-cli:0.20.3
+    garyascuy/hoppscotch-cli:latest \
+    test --env ./Hoppscotch.env.json ./ApiTestInfo.collection.json
 ```
 
-Inside of container
+### Usage Trick - "Install" Command 
+
+Add alias into profile (`.zshrc`, `.zsh_profile`, `.shrc`, `.profile`):
+
+```sh
+alias hopp="docker run --rm -t --network host -v $(pwd):/usr/app garyascuy/hoppscotch-cli:latest"
+```
+
+Now you can execute using the following command:
+
 ```sh
 hopp test --env ./Hoppscotch.env.json ./ApiTestInfo.collection.json
 ```
 
 ### References 
 
-- https://hub.docker.com/r/garyascuy/hoppscotch-cli/tags
+- https://hub.docker.com/r/garyascuy/hoppscotch-cli
+
+### Thanks
+
+- Forked from @shawnsarwar/hoppscotch-cli-docker
