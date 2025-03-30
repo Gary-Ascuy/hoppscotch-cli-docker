@@ -31,4 +31,3 @@ hopp test --env ./Hoppscotch.env.json ./ApiTestInfo.collection.json
 ### References 
 
 - https://hub.docker.com/r/garyascuy/hoppscotch-cli/tags
-
